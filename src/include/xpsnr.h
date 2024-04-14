@@ -38,6 +38,7 @@ private:
   bool use_weight_smoothing; /* enable weight smoothing if true */
   int NW, NH;                /* Number of blocks in width/height */
   int64_t next_index;        /* Next input picture's POC */
+  int64_t next_output_index;
   int buffer_len_max;
   std::vector<std::vector<uint8_t>> orgpic_array;
   std::vector<std::vector<double>> weight_array;

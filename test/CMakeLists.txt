@@ -4,6 +4,7 @@ add_executable(
   ${PROJECT_NAME}
   taact_test.cc
   saact_test.cc
+  dist_test.cc
 )
 target_link_libraries(
   ${PROJECT_NAME}

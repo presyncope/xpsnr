@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cassert>
 #include <iostream>
+#include <limits>
 
 static int get_block_size(const int width, const int height, const int bit_depth)
 {
@@ -57,6 +58,7 @@ int xpsnr::init(const xpsnr_init_params &iparam)
   use_weight_smoothing = (W * H <= 640 * 480);
 
   next_index = 0;
+  next_output_index = 0;
   buffer_len_max = std::max(iparam.ring_buffer_len, 3);
 
   orgpic_array.resize(buffer_len_max);
@@ -72,7 +74,9 @@ int xpsnr::init(const xpsnr_init_params &iparam)
 
 int xpsnr::clear()
 {
- 
+  orgpic_array.clear();
+  weight_array.clear();
+  buffer_len_max = 0;
   return 0;
 }
 
@@ -95,6 +99,19 @@ int xpsnr::put_frame(const uint8_t *input_yuv,
   return 0;
 }
 
+double xpsnr::get_xpsnr_sync(int64_t index)
+{
+  if (index >= next_index ||
+      index <= (next_index - buffer_len_max))
+  {
+    std::cout << "[xpsnr] " << index << " xpsnr value can't accessable." << std::endl;
+    std::cout.flush();
+
+    return std::numeric_limits<double>::quiet_NaN();
+  }
+  return 0.0;
+}
+
 int xpsnr::calc_weights_in_pic(int64_t index)
 {
   const int bfridx = (int)(index % buffer_len_max);
@@ -109,7 +126,7 @@ int xpsnr::calc_weights_in_pic(int64_t index)
 
   spatial_act_func_t sa_func = nullptr;
   temp_act_func_t ta_func = nullptr;
-  
+
   sa_func = get_spatial_act_avx2_func(BD, use_downsampling);
 
   if (index > 1 && ifps > 32)
@@ -154,10 +171,11 @@ int xpsnr::calc_weights_in_pic(int64_t index)
         act /= 4.0;
         act = std::max(act, act_min);
       }
-      
+
       double w = act_pic_sqrt / act;
       weights[blk_idx] = w;
 
+      // NOTE: I didn't checked this code. so there is a possibility that this code is wrong.
       if (use_weight_smoothing)
       {
         if (x == 0) /* first column */

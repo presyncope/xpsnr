@@ -11,6 +11,8 @@ set(LIB_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/x86/sa_act_avx2.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/x86/ta_act_sse.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/sources/x86/ta_act_avx2.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/x86/distortion_sse.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/x86/distortion_avx2.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${LIB_SOURCES})
