@@ -60,6 +60,23 @@
     "iomanip": "cpp",
     "mutex": "cpp",
     "thread": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "__hash_table": "c",
+    "__split_buffer": "c",
+    "__tree": "c",
+    "locale": "c",
+    "complex": "c",
+    "math.h": "c",
+    "stdint.h": "c",
+    "__bit_reference": "c",
+    "__config": "c",
+    "__locale": "c",
+    "__node_handle": "c",
+    "__threading_support": "c",
+    "__verbose_abort": "c",
+    "bitset": "c",
+    "charconv": "c",
+    "execution": "c",
+    "ios": "c"
   }
 }
