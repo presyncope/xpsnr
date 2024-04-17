@@ -150,6 +150,8 @@ static int calc_weights_in_picture(
   case xpsnr_cpu_avx2:
     sa_func = get_spatial_act_avx2_func(ctx.BD, ctx.use_downsampling);
     break;
+  default:
+    break;
   }
   if (ta_order)
   {
@@ -163,6 +165,8 @@ static int calc_weights_in_picture(
       break;
     case xpsnr_cpu_avx2:
       ta_func = get_temp_act_avx2_func(ctx.BD, ta_order, ctx.use_downsampling);
+      break;
+    default:
       break;
     }
   }
