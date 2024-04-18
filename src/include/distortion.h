@@ -21,7 +21,7 @@ uint64_t ssd_c(const T *o1, const T *o2, int src_stride, int w, int h)
 
 static inline void inner_product_c(double *dst, const double *w, const uint64_t *ssd, int n)
 {
-  for (int i = 0; i < n; ++n)
+  for (int i = 0; i < n; ++i)
   {
     dst[i] = w[i] * ssd[i];
   }
