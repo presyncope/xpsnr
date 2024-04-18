@@ -97,7 +97,20 @@ static int calc_wssd_in_picture(
     double *wssd_out,
     uint64_t *ssd_out)
 {
-  const decltype(&ssd8u_sse) fn_ssd = ctx.BD > 10 ? ssd10u_avx2 : ssd8u_avx2;
+  decltype(&ssd8u_sse) fn_ssd = nullptr;
+
+  switch (ctx.cpu)
+  {
+  case xpsnr_cpu_sse41:
+    fn_ssd = ctx.BD > 10 ? ssd10u_sse : ssd8u_sse;
+    break;
+  case xpsnr_cpu_avx2:
+    fn_ssd = ctx.BD > 10 ? ssd10u_avx2 : ssd8u_avx2;
+    break;
+  default:
+    break;
+  }
+
   auto o = (const uint8_t *)org_ptr;
   auto d = (const uint8_t *)dist_ptr;
   const int M = ctx.BD > 10 ? 2 : 1;

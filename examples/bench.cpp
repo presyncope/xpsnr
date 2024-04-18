@@ -1,6 +1,25 @@
 #include "xpsnr.h"
 #include <fstream>
 #include <vector>
+#include <iostream>
+#include <chrono>
+
+class StopWatch
+{
+public:
+  void start()
+  {
+    t0 = std::chrono::high_resolution_clock::now();
+  }
+
+  double stop()
+  {
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch() - t0.time_since_epoch()).count() / 1.0e9;
+  }
+
+private:
+  std::chrono::high_resolution_clock::time_point t0;
+};
 
 int run(int w, int h, double fps, const char* org_path, const char* dist_path, xpsnr_cpu_t cpu)
 {
@@ -26,6 +45,8 @@ int run(int w, int h, double fps, const char* org_path, const char* dist_path, x
   wssd.resize(nblk_inw * nblk_inh);
   ssd.resize(nblk_inw * nblk_inh);
   
+  StopWatch sw;
+  sw.start();
   while(true)
   {
     org_file.read((char*)org_buffer[count % 3].data(), w * h);
@@ -48,6 +69,9 @@ int run(int w, int h, double fps, const char* org_path, const char* dist_path, x
     ++count;
   }
 
+  double sec = sw.stop();
+  std::cout << "elapsed " << sec << " sec." << std::endl;
+
   return 0;
 }
 
@@ -58,7 +82,14 @@ int main(void)
   const int w = 1920;
   const int h = 1080; 
   const double fps = 60.0;
- 
+  
+  std::cout << "[C]" << std::endl;
+  run(w, h, fps, org_path, dist_path, xpsnr_cpu_c);
+
+  std::cout << "[SSE]" << std::endl;
+  run(w, h, fps, org_path, dist_path, xpsnr_cpu_sse41);
+
+  std::cout << "[AVX]" << std::endl;
   run(w, h, fps, org_path, dist_path, xpsnr_cpu_avx2);
 
   return 0;
