@@ -75,15 +75,15 @@ protected:
 
 TEST_F(TaActTest, TaAct8uO1) 
 {
-  auto tao1_8u_c = get_temp_act_func(8, 1, false);
-  auto tao1_8u_sse = get_temp_act_sse_func(8, 1, false);
-  auto tao1_8u_avx2 = get_temp_act_avx2_func(8, 1, false);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 8, 1, false);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 8, 1, false);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 8, 1, false);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao1_8u_c(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
-    uint64_t res_sse = tao1_8u_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
-    uint64_t res_avx2 = tao1_8u_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
+    uint64_t res_c = ta_c(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
+    uint64_t res_sse = ta_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -92,15 +92,15 @@ TEST_F(TaActTest, TaAct8uO1)
 
 TEST_F(TaActTest, TaAct10uO1) 
 {
-  auto tao1_10u_c = get_temp_act_func(10, 1, false);
-  auto tao1_10u_sse = get_temp_act_sse_func(10, 1, false);
-  auto tao1_10u_avx2 = get_temp_act_avx2_func(10, 1, false);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 10, 1, false);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 10, 1, false);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 10, 1, false);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao1_10u_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
-    uint64_t res_sse = tao1_10u_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
-    uint64_t res_avx2 = tao1_10u_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
+    uint64_t res_c = ta_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
+    uint64_t res_sse = ta_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -109,15 +109,15 @@ TEST_F(TaActTest, TaAct10uO1)
 
 TEST_F(TaActTest, TaAct8uO2)
 {
-  auto tao2_8u_c = get_temp_act_func(8, 2, false);
-  auto tao2_8u_sse = get_temp_act_sse_func(8, 2, false);
-  auto tao2_8u_avx2 = get_temp_act_avx2_func(8, 2, false);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 8, 2, false);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 8, 2, false);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 8, 2, false);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao2_8u_c(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
-    uint64_t res_sse = tao2_8u_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
-    uint64_t res_avx2 = tao2_8u_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
+    uint64_t res_c = ta_c(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
+    uint64_t res_sse = ta_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -126,15 +126,15 @@ TEST_F(TaActTest, TaAct8uO2)
 
 TEST_F(TaActTest, TaAct10uO2) 
 {
-  auto tao2_10u_c = get_temp_act_func(10, 2, false);
-  auto tao2_10u_sse = get_temp_act_sse_func(10, 2, false);
-  auto tao2_10u_avx2 = get_temp_act_avx2_func(10, 2, false);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 10, 2, false);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 10, 2, false);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 10, 2, false);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao2_10u_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
-    uint64_t res_sse = tao2_10u_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
-    uint64_t res_avx2 = tao2_10u_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
+    uint64_t res_c = ta_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
+    uint64_t res_sse = ta_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -143,15 +143,15 @@ TEST_F(TaActTest, TaAct10uO2)
 
 TEST_F(TaActTest, TaAct8uO1Ds)
 {
-  auto tao1_8uds_c = get_temp_act_func(8, 1, true);
-  auto tao1_8uds_sse = get_temp_act_sse_func(8, 1, true);
-  auto tao1_8uds_avx2 = get_temp_act_avx2_func(8, 1, true);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 8, 1, true);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 8, 1, true);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 8, 1, true);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao1_8uds_c(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
-    uint64_t res_sse = tao1_8uds_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
-    uint64_t res_avx2 = tao1_8uds_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
+    uint64_t res_c = ta_c(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
+    uint64_t res_sse = ta_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), nullptr, tc.width, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -160,15 +160,15 @@ TEST_F(TaActTest, TaAct8uO1Ds)
 
 TEST_F(TaActTest, TaAct10uO1Ds)
 {
-  auto tao1_10uds_c = get_temp_act_func(10, 1, true);
-  auto tao1_10uds_sse = get_temp_act_sse_func(10, 1, true);
-  auto tao1_10uds_avx2 = get_temp_act_avx2_func(10, 1, true);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 10, 1, true);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 10, 1, true);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 10, 1, true);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao1_10uds_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
-    uint64_t res_sse = tao1_10uds_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
-    uint64_t res_avx2 = tao1_10uds_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
+    uint64_t res_c = ta_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
+    uint64_t res_sse = ta_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), nullptr, tc.width * 2, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
   }
@@ -176,15 +176,15 @@ TEST_F(TaActTest, TaAct10uO1Ds)
 
 TEST_F(TaActTest, TaAct8uO2Ds)
 {
-  auto tao2_8uds_c = get_temp_act_func(8, 2, true);
-  auto tao2_8uds_sse = get_temp_act_sse_func(8, 2, true);
-  auto tao2_8uds_avx2 = get_temp_act_avx2_func(8, 2, true);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 8, 2, true);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 8, 2, true);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 8, 2, true);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao2_8uds_c(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
-    uint64_t res_sse = tao2_8uds_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
-    uint64_t res_avx2 = tao2_8uds_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
+    uint64_t res_c = ta_c(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
+    uint64_t res_sse = ta_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), tc.samples8u[2].data(), tc.width, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -193,15 +193,15 @@ TEST_F(TaActTest, TaAct8uO2Ds)
 
 TEST_F(TaActTest, TaAct10uO2Ds)
 {
-  auto tao2_10uds_c = get_temp_act_func(10, 2, true);
-  auto tao2_10uds_sse = get_temp_act_sse_func(10, 2, true);
-  auto tao2_10uds_avx2 = get_temp_act_avx2_func(10, 2, true);
+  auto ta_c = get_temp_act_func(xpsnr_cpu_c, 10, 2, true);
+  auto ta_sse = get_temp_act_func(xpsnr_cpu_sse41, 10, 2, true);
+  auto ta_avx2 = get_temp_act_func(xpsnr_cpu_avx2, 10, 2, true);
 
   for (auto &tc : testset)
   {
-    uint64_t res_c = tao2_10uds_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
-    uint64_t res_sse = tao2_10uds_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
-    uint64_t res_avx2 = tao2_10uds_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
+    uint64_t res_c = ta_c((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
+    uint64_t res_sse = ta_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
+    uint64_t res_avx2 = ta_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), (uint8_t *)tc.samples10u[2].data(), tc.width * 2, tc.width, tc.height);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);

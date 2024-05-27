@@ -27,6 +27,34 @@
               "ignoreFailures": true
           }
       ]
+    },
+    {
+      "name": "Run XPSNR",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/../build/examples/XpsnrApp",
+      "args": [
+        "-i", "/storage/videos/yuv/jvet_1080p/FoodMarket4_1920x1080_60.yuv",
+        "-d", "/storage/videos/yuv/jvet_1080p/FoodMarket4_1920x1080_60_encoded.yuv",
+        "-w", "1920", "-h", "1080", "-f", "60"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+          {
+              "description": "Enable pretty-printing for gdb",
+              "text": "-enable-pretty-printing",
+              "ignoreFailures": true
+          },
+          {
+              "description": "Set Disassembly Flavor to Intel",
+              "text": "-gdb-set disassembly-flavor intel",
+              "ignoreFailures": true
+          }
+      ]
     }
 
   ]

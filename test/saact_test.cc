@@ -75,9 +75,9 @@ protected:
 
 TEST_F(SaActTest, SaAct8u)
 {
-  auto sa8u_c = get_spatial_act_func(8, false);
-  auto sa8u_sse = get_spatial_act_sse_func(8, false);
-  auto sa8u_avx2 = get_spatial_act_avx2_func(8, false);
+  auto sa8u_c = get_saact_func(xpsnr_cpu_c, 8, false);
+  auto sa8u_sse = get_saact_func(xpsnr_cpu_sse41, 8, false);
+  auto sa8u_avx2 = get_saact_func(xpsnr_cpu_avx2, 8, false);
   constexpr int bVal = 1;
 
   for (auto &tc : testset)
@@ -116,9 +116,9 @@ TEST_F(SaActTest, SaAct8u)
 
 TEST_F(SaActTest, SaAct10u)
 {
-  auto sa10u_c = get_spatial_act_func(10, false);
-  auto sa10u_sse = get_spatial_act_sse_func(10, false);
-  auto sa10u_avx2 = get_spatial_act_avx2_func(10, false);
+  auto sa10u_c = get_saact_func(xpsnr_cpu_c, 10, false);
+  auto sa10u_sse = get_saact_func(xpsnr_cpu_sse41, 10, false);
+  auto sa10u_avx2 = get_saact_func(xpsnr_cpu_avx2, 10, false);
   constexpr int bVal = 1;
 
   for (auto &tc : testset)
@@ -157,9 +157,9 @@ TEST_F(SaActTest, SaAct10u)
 
 TEST_F(SaActTest, SaAct8uDS)
 {
-  auto sa8uds_c = get_spatial_act_func(8, true);
-  auto sa8uds_sse = get_spatial_act_sse_func(8, true);
-  auto sa8uds_avx2 = get_spatial_act_avx2_func(8, true);
+  auto sa8uds_c = get_saact_func(xpsnr_cpu_c, 8, true);
+  auto sa8uds_sse = get_saact_func(xpsnr_cpu_sse41, 8, true);
+  auto sa8uds_avx2 = get_saact_func(xpsnr_cpu_avx2, 8, true);
   constexpr int bVal = 2;
 
   for (auto &tc : testset)
@@ -197,9 +197,9 @@ TEST_F(SaActTest, SaAct8uDS)
 
 TEST_F(SaActTest, SaAct10uDS)
 {
-  auto sa10uds_c = get_spatial_act_func(10, true);
-  auto sa10uds_sse = get_spatial_act_sse_func(10, true);
-  auto sa10uds_avx2 = get_spatial_act_avx2_func(10, true);
+  auto sa10uds_c = get_saact_func(xpsnr_cpu_c, 10, true);
+  auto sa10uds_sse = get_saact_func(xpsnr_cpu_sse41, 10, true);
+  auto sa10uds_avx2 = get_saact_func(xpsnr_cpu_avx2, 10, true);
   constexpr int bVal = 2;
 
   for (auto &tc : testset)

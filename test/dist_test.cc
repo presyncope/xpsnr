@@ -72,14 +72,17 @@ protected:
 
 TEST_F(DistotionTest, DistotionSSD8u)
 {
+  auto ssd_c = get_ssd_func(xpsnr_cpu_c, 8);
+  auto ssd_sse = get_ssd_func(xpsnr_cpu_sse41, 8);
+  auto ssd_avx2 = get_ssd_func(xpsnr_cpu_avx2, 8);
   for (auto &tc : testset)
   {
     const int W = tc.width;
     const int H = tc.height;
 
-    uint64_t res_c = ssd_c(tc.samples8u[0].data(), tc.samples8u[1].data(), W, W, H);
-    uint64_t res_sse = ssd8u_sse(tc.samples8u[0].data(), tc.samples8u[1].data(), W, W, H);
-    uint64_t res_avx2 = ssd8u_avx2(tc.samples8u[0].data(), tc.samples8u[1].data(), W, W, H);
+    uint64_t res_c = ssd_c(tc.samples8u[0].data(), W, tc.samples8u[1].data(), W, W, H);
+    uint64_t res_sse = ssd_sse(tc.samples8u[0].data(), W, tc.samples8u[1].data(), W, W, H);
+    uint64_t res_avx2 = ssd_avx2(tc.samples8u[0].data(), W, tc.samples8u[1].data(), W, W, H);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
@@ -88,14 +91,17 @@ TEST_F(DistotionTest, DistotionSSD8u)
 
 TEST_F(DistotionTest, DistotionSSD10u)
 {
+  auto ssd_c = get_ssd_func(xpsnr_cpu_c, 10);
+  auto ssd_sse = get_ssd_func(xpsnr_cpu_sse41, 10);
+  auto ssd_avx2 = get_ssd_func(xpsnr_cpu_avx2, 10);
   for (auto &tc : testset)
   {
     const int W = tc.width;
     const int H = tc.height;
 
-    uint64_t res_c = ssd_c(tc.samples10u[0].data(), tc.samples10u[1].data(), W * 2, W, H);
-    uint64_t res_sse = ssd10u_sse((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), W * 2, W, H);
-    uint64_t res_avx2 = ssd10u_avx2((uint8_t *)tc.samples10u[0].data(), (uint8_t *)tc.samples10u[1].data(), W * 2, W, H);
+    uint64_t res_c = ssd_c((uint8_t *)tc.samples10u[0].data(), W * 2, (uint8_t *)tc.samples10u[1].data(), W * 2, W, H);
+    uint64_t res_sse = ssd_sse((uint8_t *)tc.samples10u[0].data(), W * 2, (uint8_t *)tc.samples10u[1].data(), W * 2, W, H);
+    uint64_t res_avx2 = ssd_avx2((uint8_t *)tc.samples10u[0].data(), W * 2, (uint8_t *)tc.samples10u[1].data(), W * 2, W, H);
 
     EXPECT_EQ(res_c, res_sse);
     EXPECT_EQ(res_c, res_avx2);
