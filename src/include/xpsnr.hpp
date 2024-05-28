@@ -43,7 +43,7 @@ private:
   int fps;            // frame rate
   int N;              // block size
   int nblk_w, nblk_h; // number of blocks in width/height
-  double act_pic;     // equivalents to sqrt(16 * average overall activity)
+  double avg_act;     // equivalents to sqrt(16 * average overall activity)
   double act_min;     // minimum activity
 
   struct

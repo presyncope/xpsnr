@@ -57,12 +57,13 @@ int xpsnr::init(const xpsnr_options_t &opt)
   nblk_w = (W + N - 1) / N;
   nblk_h = (H + N - 1) / N;
 
-  act_pic = std::sqrt(16.0 * (1 << (2 * BD - 9)) / std::sqrt(std::max(r, 0.00001)));
+  avg_act = std::sqrt(16.0 * (1 << (2 * BD - 9)) / std::sqrt(std::max(r, 0.00001)));
   act_min = (double)(1 << (BD - 6));
 
   for (int i = 0; i < 3; ++i)
   {
     buf.luma_pel[i].reset((uint8_t *)aligned_alloc(64, linesize * H), &free);
+    std::memset(buf.luma_pel[i].get(), 0, linesize * H);
   }
 
   buf.luma_sse.resize(nblk_w * nblk_h);
@@ -76,7 +77,7 @@ int xpsnr::init(const xpsnr_options_t &opt)
 int xpsnr::put_frame(xpsnr_putframe_exchanges_t &pe)
 {
   const bool ds = (W * H > 2048 * 1152); /* This is little bit different from JITU paper (2048 * 1280) */
-  const int order = (input_counts >= 2 && fps > 32) ? 2 : (input_counts >= 1 ? 1 : 0);
+  const int order = (fps > 32) ? 2 : 1;
   const ssd_func_t ssd_func = get_ssd_func(cpu, BD);
   const spatial_act_func_t sa_func = get_saact_func(cpu, BD, ds);
   const temp_act_func_t ta_func = (order > 0) ? get_temp_act_func(cpu, BD, order, ds) : nullptr;
@@ -126,16 +127,15 @@ int xpsnr::put_frame(xpsnr_putframe_exchanges_t &pe)
                            stride, wAct, hAct);
         }
 
-        double act = ((double)sa_act / (wAct * hAct));
+        double act = ((double)sa_act / ((double)(wAct - xAct) * (double)(hAct - yAct)));
         if (ta_act)
         {
-          act += XPSNR_GAMMA * ((double)ta_act / (blockWidth * blockHeight));
+          act += (double)ta_act / (blockWidth * blockHeight);
         }
 
         act = std::max(act_min, act);
-        double weight = act_pic / act;
-
-        buf.weights[bidx] = weight;
+      
+        buf.weights[bidx] = 1.0 / act;
         buf.luma_sse[bidx] = sse;
 
         if (blockWeightSmoothing) /* inline "minimum-smoothing" as in paper */
@@ -175,6 +175,8 @@ int xpsnr::put_frame(xpsnr_putframe_exchanges_t &pe)
       wsse_luma += buf.weights[i] * buf.luma_sse[i];
     }
 
+    wsse_luma = wsse_luma * avg_act;
+
     pe.xpsnr = compute_wpsnr_frame(wsse_luma);
   }
 
@@ -184,6 +186,7 @@ int xpsnr::put_frame(xpsnr_putframe_exchanges_t &pe)
 
 double xpsnr::compute_wpsnr_frame(const double wsse_sum)
 {
+  int64_t max_error = ((1 << BD) - 1) * ((1 << BD) - 1);
   return 10.0 * std::log10(
-                    (double)((int64_t)W * H * (1 << (BD - 1)) * (1 << (BD - 1))) / wsse_sum);
+                    (double)((int64_t)W * H * max_error) / wsse_sum);
 }

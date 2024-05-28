@@ -64,7 +64,7 @@ int main(int argc, char** argv)
   xpsnr_opt.height = config.height;
   xpsnr_opt.bit_depth = 8;
   xpsnr_opt.frame_rate = config.fps;
-  xpsnr_opt.cpu = xspnr_cpu_auto;
+  xpsnr_opt.cpu = xpsnr_cpu_sse41;
   
   xp.init(xpsnr_opt);
   
@@ -75,6 +75,7 @@ int main(int argc, char** argv)
   const uint8_t* ref_ptr = nullptr;
   const uint8_t* dist_ptr = nullptr;
 
+  int cnt = 0;
   do
   {
     ref_ptr = yuv_ref->read_next();
@@ -86,9 +87,10 @@ int main(int argc, char** argv)
     
     xp.put_frame(ex);
 
-    std::cout << ex.xpsnr << std::endl;
+    std::cout << cnt << ":" << ex.xpsnr << std::endl;
+    ++cnt;
 
-  } while (true);
+  } while (cnt < 100);
 
   return 0;
 }
